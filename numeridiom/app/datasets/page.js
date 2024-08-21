@@ -11,8 +11,39 @@ export default function Datasets() {
         </svg>
       </Link>
       <h1 className="text-4xl font-bold mb-8">Datasets</h1>
-      <p>This page will contain various datasets used in the application.</p>
-      {/* Add more content for datasets here */}
+      
+      <div className="w-full max-w-2xl">
+        <Category 
+          title="UFC" 
+          chartsLink="/datasets/ufc/charts" 
+          infoLink="/datasets/ufc/info" 
+        />
+        <Category 
+          title="Boxing" 
+          chartsLink="/datasets/boxing/charts" 
+          infoLink="/datasets/boxing/info" 
+        />
+      </div>
     </main>
+  );
+}
+
+function Category({ title, chartsLink, infoLink }) {
+  return (
+    <div className="mb-8">
+      <h2 className="text-2xl font-semibold mb-4">{title}</h2>
+      <div className="flex space-x-4">
+        <Link href={chartsLink}>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Charts & Graphs
+          </button>
+        </Link>
+        <Link href={infoLink}>
+          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Information
+          </button>
+        </Link>
+      </div>
+    </div>
   );
 }
