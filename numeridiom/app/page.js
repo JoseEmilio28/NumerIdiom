@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-const DynamicHomeContent = dynamic(() => import('../components/HomeContent'), { ssr: false });
+const DynamicHomeContent = dynamic(() => import('./components/HomeContent'), { ssr: false });
 
 export default function Home() {
   return (
