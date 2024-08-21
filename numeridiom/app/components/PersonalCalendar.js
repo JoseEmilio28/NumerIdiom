@@ -6,6 +6,7 @@ const PersonalCalendar = ({ birthdate }) => {
   const [personalYear, setPersonalYear] = useState('');
   const [personalMonth, setPersonalMonth] = useState('');
   const [personalDay, setPersonalDay] = useState('');
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
     calculatePersonalNumbers();
@@ -36,11 +37,6 @@ const PersonalCalendar = ({ birthdate }) => {
 
   const nextMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
-  };
-
-  const calculateCurrentDayNumbers = () => {
-    const today = new Date();
-    setCurrentDate(today);
   };
 
   const renderCalendar = () => {
@@ -75,6 +71,21 @@ const PersonalCalendar = ({ birthdate }) => {
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-semibold mb-4">Personal Calendar View</h2>
+      <p className="mb-4">
+        Your <span 
+          className="underline cursor-pointer text-blue-600" 
+          onClick={() => setShowInfo(!showInfo)}
+        >
+          Personal Numbers
+        </span> for {currentDate.toLocaleDateString()}
+      </p>
+      {showInfo && (
+        <div className="bg-gray-100 p-4 rounded-lg mb-4">
+          <p>Personal Year: Birth month + Birth day + Current year</p>
+          <p>Personal Month: Personal Year + Current month</p>
+          <p>Personal Day: Personal Month + Current day</p>
+        </div>
+      )}
       <div className="flex justify-between mb-4">
         <button onClick={prevMonth} className="bg-blue-500 text-white px-4 py-2 rounded">Previous</button>
         <h3 className="text-xl font-medium">
@@ -87,9 +98,6 @@ const PersonalCalendar = ({ birthdate }) => {
         <p>Personal Month: {personalMonth}</p>
         <p>Personal Day: {personalDay}</p>
       </div>
-      <button onClick={calculateCurrentDayNumbers} className="bg-green-500 text-white px-4 py-2 rounded mb-4">
-        Calculate Current Day Numbers
-      </button>
       <table className="w-full border-collapse">
         <thead>
           <tr>
