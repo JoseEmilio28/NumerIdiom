@@ -9,20 +9,23 @@ export const calculateLifePath = (birthdate) => {
     num.toString().split('').forEach(digit => {
       sum += parseInt(digit);
     });
-    if (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
-      return addDigits(sum);
-    }
     return sum;
   };
 
-  const monthSum = addDigits(month);
-  const daySum = addDigits(day);
+  const isMasterNumber = (num) => num === 11 || num === 22 || num === 33;
+
+  const monthSum = isMasterNumber(parseInt(month)) ? parseInt(month) : addDigits(month);
+  const daySum = isMasterNumber(parseInt(day)) ? parseInt(day) : addDigits(day);
   const yearSum = addDigits(year);
 
-  let sum = addDigits(monthSum + daySum + yearSum);
-  
-  if (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
-    return `${sum}/${addDigits(sum)}`;
+  let sum = monthSum + daySum + yearSum;
+
+  if (isMasterNumber(sum)) {
+    return sum.toString();
+  }
+
+  while (sum > 9 && !isMasterNumber(sum)) {
+    sum = addDigits(sum);
   }
 
   return sum.toString();
