@@ -1,5 +1,3 @@
-import { calculateDayBorn } from './numerologyCalculations';
-
 export function processUFCData(ufcFighters) {
   const lifePath = {};
   const dayBorn = {};
@@ -10,8 +8,8 @@ export function processUFCData(ufcFighters) {
   ufcFighters.forEach(division => {
     division.fighters.forEach(fighter => {
       totalFighters++;
-      const lifePathKey = fighter.lifePath === '2' ? '11' : fighter.lifePath;
-      const dayBornKey = ['11', '22', '33'].includes(fighter.dayBorn) ? fighter.dayBorn : calculateDayBorn(fighter.dob);
+      const lifePathKey = fighter.lifePath;
+      const dayBornKey = fighter.dayBorn;
       lifePath[lifePathKey] = (lifePath[lifePathKey] || 0) + 1;
       dayBorn[dayBornKey] = (dayBorn[dayBornKey] || 0) + 1;
       chineseZodiac[fighter.chineseZodiac] = (chineseZodiac[fighter.chineseZodiac] || 0) + 1;
