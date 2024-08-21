@@ -3,12 +3,15 @@ export function processUFCData(ufcFighters) {
   const dayBorn = {};
   const chineseZodiac = {};
   const siderealSunSign = {};
+  let totalFighters = 0;
 
   ufcFighters.forEach(division => {
     division.fighters.forEach(fighter => {
-      const lifePathKey = fighter.lifePath === '2' ? '11' : fighter.lifePath;
+      totalFighters++;
+      const lifePathKey = fighter.lifePath === '11' || fighter.lifePath === '22' || fighter.lifePath === '33' ? fighter.lifePath : fighter.lifePath;
+      const dayBornKey = fighter.dayBorn === '11' || fighter.dayBorn === '22' || fighter.dayBorn === '33' ? fighter.dayBorn : fighter.dayBorn;
       lifePath[lifePathKey] = (lifePath[lifePathKey] || 0) + 1;
-      dayBorn[fighter.dayBorn] = (dayBorn[fighter.dayBorn] || 0) + 1;
+      dayBorn[dayBornKey] = (dayBorn[dayBornKey] || 0) + 1;
       chineseZodiac[fighter.chineseZodiac] = (chineseZodiac[fighter.chineseZodiac] || 0) + 1;
       siderealSunSign[fighter.siderealSunSign] = (siderealSunSign[fighter.siderealSunSign] || 0) + 1;
     });
@@ -25,25 +28,28 @@ export function processUFCData(ufcFighters) {
   });
 
   return {
-    lifePath: createChartData(lifePath, [
-      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-      '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-      '#9966FF', '#FF9F40',
-    ]),
-    dayBorn: createChartData(dayBorn, [
-      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-      '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-      '#9966FF', '#FF9F40',
-    ]),
-    chineseZodiac: createChartData(chineseZodiac, [
-      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-      '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-      '#9966FF', '#FF9F40',
-    ]),
-    siderealSunSign: createChartData(siderealSunSign, [
-      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-      '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-      '#9966FF', '#FF9F40',
-    ]),
+    data: {
+      lifePath: createChartData(lifePath, [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+        '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+        '#9966FF', '#FF9F40',
+      ]),
+      dayBorn: createChartData(dayBorn, [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+        '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+        '#9966FF', '#FF9F40',
+      ]),
+      chineseZodiac: createChartData(chineseZodiac, [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+        '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+        '#9966FF', '#FF9F40',
+      ]),
+      siderealSunSign: createChartData(siderealSunSign, [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+        '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+        '#9966FF', '#FF9F40',
+      ]),
+    },
+    totalFighters,
   };
 }

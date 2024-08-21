@@ -11,10 +11,12 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarEle
 
 export default function UFCCharts() {
   const [chartData, setChartData] = useState(null);
+  const [sampleSize, setSampleSize] = useState(0);
 
   useEffect(() => {
-    const data = processUFCData(ufcFighters);
+    const { data, totalFighters } = processUFCData(ufcFighters);
     setChartData(data);
+    setSampleSize(totalFighters);
   }, []);
 
   if (!chartData) {
@@ -45,6 +47,7 @@ export default function UFCCharts() {
         </svg>
       </Link>
       <h1 className="text-4xl font-bold mb-8">UFC Charts & Graphs</h1>
+      <p className="text-xl mb-8">Sample Size: {sampleSize} fighters</p>
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Life Path Distribution</h2>
