@@ -9,7 +9,7 @@ const addDigits = (num) => {
   return sum === 20 ? 11 : sum;
 };
 
-const calculateNumber = (num1, num2) => {
+export const calculateNumber = (num1, num2) => {
   let sum = parseInt(num1) + parseInt(num2);
   while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
     sum = addDigits(sum);
