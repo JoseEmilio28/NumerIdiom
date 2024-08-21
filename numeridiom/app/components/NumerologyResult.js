@@ -38,10 +38,10 @@ const NumerologyResult = ({ birthdate }) => {
         <div key={index} className="bg-white p-4 rounded-lg shadow relative">
           <h3 className="text-lg font-medium mb-2">{number.title}</h3>
           <p className="text-3xl font-bold">{number.value}</p>
-          {number.title === 'Life Path Number' && (
+          {number.title !== 'Day of Year' && (
             <button
               className="absolute top-2 right-2 bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
-              onClick={() => setActiveInfo(activeInfo === number.value ? null : number.value)}
+              onClick={() => setActiveInfo(number)}
             >
               i
             </button>
@@ -70,11 +70,23 @@ const NumerologyResult = ({ birthdate }) => {
       </div>
       {activeTab === 'primary' && renderNumbers(primaryNumbers)}
       {activeTab === 'secondary' && renderNumbers(secondaryNumbers)}
-      {activeInfo && lifePathInfo[activeInfo] && (
-        <div className="mt-4 bg-white p-4 rounded-lg shadow">
-          <h3 className="text-xl font-semibold mb-2">Life Path {activeInfo}</h3>
-          <p className="mb-2">{lifePathInfo[activeInfo].description}</p>
-          <p><strong>Suggested Careers:</strong> {lifePathInfo[activeInfo].careers}</p>
+      {activeInfo && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg max-w-md">
+            <h3 className="text-xl font-semibold mb-2">{activeInfo.title}: {activeInfo.value}</h3>
+            {lifePathInfo[activeInfo.value] && (
+              <>
+                <p className="mb-2">{lifePathInfo[activeInfo.value].description}</p>
+                <p><strong>Suggested Careers:</strong> {lifePathInfo[activeInfo.value].careers}</p>
+              </>
+            )}
+            <button
+              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+              onClick={() => setActiveInfo(null)}
+            >
+              Close
+            </button>
+          </div>
         </div>
       )}
     </div>
