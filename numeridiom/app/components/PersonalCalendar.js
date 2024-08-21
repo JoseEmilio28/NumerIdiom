@@ -13,19 +13,30 @@ const PersonalCalendar = ({ birthdate }) => {
   }, [currentDate, birthdate]);
 
   const calculatePersonalNumbers = () => {
-    const [birthMonth, birthDay] = birthdate.split('/');
-    const currentYear = currentDate.getFullYear().toString();
-    const currentMonth = (currentDate.getMonth() + 1).toString();
-    const currentDay = currentDate.getDate().toString();
+    const [birthMonth, birthDay, birthYear] = birthdate.split('/');
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentDay = currentDate.getDate();
 
-    const pYear = calculateNumber(calculateNumber(birthMonth, birthDay), currentYear);
-    setPersonalYear(pYear);
+    // Check if the birthday has occurred this year
+    const birthdayThisYear = new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
+    const isAfterBirthday = currentDate >= birthdayThisYear;
 
-    const pMonth = calculateNumber(pYear, currentMonth);
-    setPersonalMonth(pMonth);
+    // Calculate Personal Year
+    const personalYearNumber = isAfterBirthday
+      ? calculateNumber(calculateNumber(birthMonth, birthDay), currentYear.toString())
+      : calculateNumber(calculateNumber(birthMonth, birthDay), (currentYear - 1).toString());
+    setPersonalYear(personalYearNumber);
 
-    const pDay = calculateNumber(pMonth, currentDay);
-    setPersonalDay(pDay);
+    // Calculate Personal Month
+    const personalMonthNumber = parseInt(birthDay) <= currentDay
+      ? calculateNumber(personalYearNumber, currentMonth.toString())
+      : calculateNumber(personalYearNumber, (currentMonth - 1 || 12).toString());
+    setPersonalMonth(personalMonthNumber);
+
+    // Calculate Personal Day
+    const personalDayNumber = calculateNumber(personalMonthNumber, currentDay.toString());
+    setPersonalDay(personalDayNumber);
   };
 
   const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
