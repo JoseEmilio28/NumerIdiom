@@ -1,5 +1,5 @@
 const addDigits = (num) => {
-  if (num === 11 || num === 22 || num === 33 || num === 20) {
+  if (num === 11 || num === 22 || num === 33) {
     return num;
   }
   let sum = 0;
@@ -9,7 +9,7 @@ const addDigits = (num) => {
   return sum;
 };
 
-const isMasterNumber = (num) => num === 11 || num === 22 || num === 33 || num === 20;
+const isMasterNumber = (num) => num === 11 || num === 22 || num === 33;
 
 const calculateNumber = (num1, num2) => {
   const sum1 = isMasterNumber(parseInt(num1)) ? parseInt(num1) : addDigits(num1);
@@ -24,13 +24,12 @@ const calculateNumber = (num1, num2) => {
     sum = addDigits(sum);
   }
 
-  return sum.toString();
+  return sum === 20 ? '11' : sum.toString();
 };
 
 export const calculateLifePath = (birthdate) => {
   const [month, day, year] = birthdate.split('/');
-  const result = calculateNumber(calculateNumber(month, day), year);
-  return result === '20' ? '11' : result;
+  return calculateNumber(calculateNumber(month, day), year);
 };
 
 export const calculateDayBorn = (birthdate) => {
