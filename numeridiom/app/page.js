@@ -5,7 +5,6 @@ import Link from 'next/link';
 import BirthdateInput from './components/BirthdateInput';
 import NumerologyResult from './components/NumerologyResult';
 import ZodiacResult from './components/ZodiacResult';
-import ChineseZodiacCalculator from './components/ChineseZodiacCalculator';
 import NormalCalendar from './components/NormalCalendar';
 import PersonalCalendar from './components/PersonalCalendar';
 
@@ -26,7 +25,6 @@ export default function Home() {
         <div className="mt-8 w-full max-w-4xl">
           <NumerologyResult birthdate={birthdate} />
           <ZodiacResult birthdate={birthdate} />
-          <ChineseZodiacCalculator />
           <div className="mt-8 flex justify-center space-x-4">
             <button
               onClick={() => setActiveCalendar('normal')}
