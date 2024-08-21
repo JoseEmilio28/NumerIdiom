@@ -6,7 +6,7 @@ const addDigits = (num) => {
   num.toString().split('').forEach(digit => {
     sum += parseInt(digit);
   });
-  return sum === 2 ? 11 : (sum > 9 ? addDigits(sum) : sum);
+  return sum === 2 || sum === 11 || sum === 22 || sum === 33 ? sum : (sum > 9 ? addDigits(sum) : sum);
 };
 
 export const calculateNumber = (num1, num2) => {
