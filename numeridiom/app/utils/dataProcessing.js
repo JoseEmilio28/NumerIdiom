@@ -8,7 +8,7 @@ export function processUFCData(ufcFighters) {
   ufcFighters.forEach(division => {
     division.fighters.forEach(fighter => {
       totalFighters++;
-      const lifePathKey = fighter.lifePath;
+      const lifePathKey = fighter.lifePath === '2' ? '11' : fighter.lifePath;
       const dayBornKey = fighter.dayBorn === '2' ? '11' : fighter.dayBorn;
       lifePath[lifePathKey] = (lifePath[lifePathKey] || 0) + 1;
       dayBorn[dayBornKey] = (dayBorn[dayBornKey] || 0) + 1;
