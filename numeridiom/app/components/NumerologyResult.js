@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   calculateLifePath,
   calculateDayBorn,
@@ -12,6 +12,20 @@ import { lifePathInfo } from '../utils/lifePathInfo';
 const NumerologyResult = ({ birthdate }) => {
   const [activeTab, setActiveTab] = useState(null);
   const [activeInfo, setActiveInfo] = useState(null);
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setActiveInfo(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const lifePath = calculateLifePath(birthdate);
   const dayBorn = calculateDayBorn(birthdate);
@@ -72,7 +86,7 @@ const NumerologyResult = ({ birthdate }) => {
       {activeTab === 'secondary' && renderNumbers(secondaryNumbers)}
       {activeInfo && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg max-w-md">
+          <div ref={popupRef} className="bg-white p-6 rounded-lg max-w-md">
             <h3 className="text-xl font-semibold mb-2">{activeInfo.title}: {activeInfo.value}</h3>
             {lifePathInfo[activeInfo.value] && (
               <>
