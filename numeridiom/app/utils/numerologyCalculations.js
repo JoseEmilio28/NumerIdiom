@@ -6,15 +6,12 @@ const addDigits = (num) => {
   num.toString().split('').forEach(digit => {
     sum += parseInt(digit);
   });
-  return sum === 20 ? 11 : sum;
+  return sum === 2 ? 11 : (sum > 9 ? addDigits(sum) : sum);
 };
 
 export const calculateNumber = (num1, num2) => {
   let sum = parseInt(num1) + parseInt(num2);
-  while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
-    sum = addDigits(sum);
-  }
-  return sum.toString();
+  return addDigits(sum).toString();
 };
 
 export const calculateLifePath = (birthdate) => {
