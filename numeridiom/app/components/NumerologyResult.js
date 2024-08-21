@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   calculateLifePath,
   calculateDayBorn,
+  calculateDayOfYear,
   calculateMonthYear,
   calculateMonthDay,
   calculateDayYear,
@@ -12,6 +13,7 @@ const NumerologyResult = ({ birthdate }) => {
 
   const lifePath = calculateLifePath(birthdate);
   const dayBorn = calculateDayBorn(birthdate);
+  const dayOfYear = calculateDayOfYear(birthdate);
   const monthYear = calculateMonthYear(birthdate);
   const monthDay = calculateMonthDay(birthdate);
   const dayYear = calculateDayYear(birthdate);
@@ -19,6 +21,7 @@ const NumerologyResult = ({ birthdate }) => {
   const primaryNumbers = [
     { title: 'Life Path Number', value: lifePath },
     { title: 'Day Born Number', value: dayBorn },
+    { title: 'Day of Year', value: dayOfYear },
   ];
 
   const secondaryNumbers = [

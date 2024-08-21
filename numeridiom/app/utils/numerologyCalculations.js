@@ -27,6 +27,16 @@ export const calculateDayBorn = (birthdate) => {
   return calculateNumber(day, '0');
 };
 
+export const calculateDayOfYear = (birthdate) => {
+  const [month, day, year] = birthdate.split('/');
+  const date = new Date(year, month - 1, day);
+  const startOfYear = new Date(year, 0, 0);
+  const diff = date - startOfYear;
+  const oneDay = 1000 * 60 * 60 * 24;
+  const dayOfYear = Math.floor(diff / oneDay);
+  return dayOfYear.toString();
+};
+
 export const calculateMonthYear = (birthdate) => {
   const [month, , year] = birthdate.split('/');
   return calculateNumber(month, year);
