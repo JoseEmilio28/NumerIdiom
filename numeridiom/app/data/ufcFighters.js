@@ -19,8 +19,8 @@ export const ufcFighters = [
     fighters: [
       { name: "Jamahal Hill", dob: "05/19/1991", lifePath: "8", dayBorn: "1", chineseZodiac: "Goat", siderealSunSign: "Taurus" },
       { name: "Jiri Prochazka", dob: "10/14/1992", lifePath: "9", dayBorn: "5", chineseZodiac: "Monkey", siderealSunSign: "Libra" },
-      { name: "Magomed Ankalaev", dob: "06/02/1992", lifePath: "1", dayBorn: "2", chineseZodiac: "Monkey", siderealSunSign: "Taurus" },
-      { name: "Jan Blachowicz", dob: "02/24/1983", lifePath: "1", dayBorn: "6", chineseZodiac: "Pig", siderealSunSign: "Aquarius" },
+      { name: "Magomed Ankalaev", dob: "06/02/1992", lifePath: "11", dayBorn: "2", chineseZodiac: "Monkey", siderealSunSign: "Taurus" },
+      { name: "Jan Blachowicz", dob: "02/24/1983", lifePath: "11", dayBorn: "6", chineseZodiac: "Pig", siderealSunSign: "Aquarius" },
       { name: "Aleksandar Rakic", dob: "02/06/1992", lifePath: "11", dayBorn: "6", chineseZodiac: "Monkey", siderealSunSign: "Aquarius" },
       { name: "Anthony Smith", dob: "07/26/1988", lifePath: "5", dayBorn: "8", chineseZodiac: "Dragon", siderealSunSign: "Leo" },
       { name: "Nikita Krylov", dob: "03/07/1992", lifePath: "4", dayBorn: "7", chineseZodiac: "Monkey", siderealSunSign: "Pisces" },
