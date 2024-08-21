@@ -32,12 +32,8 @@ export default function UFCInfo() {
                   <tr key={fighterIndex} className={fighterIndex % 2 === 0 ? 'bg-gray-50' : ''}>
                     <td className="border border-gray-300 p-2">{fighter.name}</td>
                     <td className="border border-gray-300 p-2">{fighter.dob}</td>
-                    <td className="border border-gray-300 p-2">
-                      {fighter.lifePath === '11' || fighter.lifePath === '22' || fighter.lifePath === '33' ? fighter.lifePath : fighter.lifePath}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {fighter.dayBorn === '2' ? '11' : (fighter.dayBorn === '11' || fighter.dayBorn === '22' || fighter.dayBorn === '33' ? fighter.dayBorn : fighter.dayBorn)}
-                    </td>
+                    <td className="border border-gray-300 p-2">{fighter.lifePath}</td>
+                    <td className="border border-gray-300 p-2">{fighter.dayBorn === '2' ? '11' : fighter.dayBorn}</td>
                     <td className="border border-gray-300 p-2">{fighter.chineseZodiac}</td>
                     <td className="border border-gray-300 p-2">{fighter.siderealSunSign}</td>
                   </tr>
