@@ -21,6 +21,10 @@ export const calculateLifePath = (birthdate) => {
 
 export const calculateDayBorn = (birthdate) => {
   const [, day] = birthdate.split('/');
+  const dayNumber = parseInt(day);
+  if (dayNumber === 11 || dayNumber === 22 || dayNumber === 33) {
+    return dayNumber.toString();
+  }
   return calculateNumber(day, '0');
 };
 
