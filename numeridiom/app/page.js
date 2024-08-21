@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <h1 className="text-4xl font-bold mb-8">NumerIdiom</h1>
-      <div className="mb-4">
+      <div className="mb-4 w-full max-w-md">
         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
           Enter your full name:
         </label>
@@ -26,7 +26,7 @@ export default function Home() {
       </div>
       <BirthdateInput onBirthdateChange={setBirthdate} />
       {birthdate && name && (
-        <div className="mt-8">
+        <div className="mt-8 w-full max-w-md">
           <NumerologyResult birthdate={birthdate} name={name} />
           <ZodiacResult birthdate={birthdate} />
         </div>
