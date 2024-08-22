@@ -52,13 +52,13 @@ export default function UFCCharts() {
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Life Path Distribution</h2>
           <div className="h-80">
-            <Pie data={chartData.lifePath} options={{...chartOptions, plugins: {...chartOptions.plugins, title: {...chartOptions.plugins.title, text: 'Life Path Distribution'}}}} />
+            <Bar data={chartData.lifePath} options={{...chartOptions, plugins: {...chartOptions.plugins, title: {...chartOptions.plugins.title, text: 'Life Path Distribution'}}}} />
           </div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Day Born Distribution</h2>
           <div className="h-80">
-            <Pie data={chartData.dayBorn} options={{...chartOptions, plugins: {...chartOptions.plugins, title: {...chartOptions.plugins.title, text: 'Day Born Distribution'}}}} />
+            <Bar data={chartData.dayBorn} options={{...chartOptions, plugins: {...chartOptions.plugins, title: {...chartOptions.plugins.title, text: 'Day Born Distribution'}}}} />
           </div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">

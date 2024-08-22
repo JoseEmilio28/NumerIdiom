@@ -8,10 +8,8 @@ export function processUFCData(ufcFighters) {
   ufcFighters.forEach(division => {
     division.fighters.forEach(fighter => {
       totalFighters++;
-      const lifePathKey = fighter.lifePath === '2' ? '11' : fighter.lifePath;
-      const dayBornKey = fighter.dayBorn === '2' ? '11' : fighter.dayBorn;
-      lifePath[lifePathKey] = (lifePath[lifePathKey] || 0) + 1;
-      dayBorn[dayBornKey] = (dayBorn[dayBornKey] || 0) + 1;
+      lifePath[fighter.lifePath] = (lifePath[fighter.lifePath] || 0) + 1;
+      dayBorn[fighter.dayBorn] = (dayBorn[fighter.dayBorn] || 0) + 1;
       chineseZodiac[fighter.chineseZodiac] = (chineseZodiac[fighter.chineseZodiac] || 0) + 1;
       siderealSunSign[fighter.siderealSunSign] = (siderealSunSign[fighter.siderealSunSign] || 0) + 1;
     });
