@@ -49,7 +49,7 @@ export const ufcFighters = [
     fighters: [
       { name: "Leon Edwards", dob: "08/25/1991", lifePath: "7", dayBorn: "7", chineseZodiac: "Goat", siderealSunSign: "Leo" },
       { name: "Kamaru Usman", dob: "05/11/1987", lifePath: "5", dayBorn: "2", chineseZodiac: "Rabbit", siderealSunSign: "Taurus" },
-      { name: "Colby Covington", dob: "02/22/1988", "lifePath": "4", dayBorn: "22", chineseZodiac: "Dragon", siderealSunSign: "Aquarius" },
+      { name: "Colby Covington", dob: "02/22/1988", lifePath: "4", dayBorn: "4", chineseZodiac: "Dragon", siderealSunSign: "Aquarius" },
       { name: "Khamzat Chimaev", dob: "05/01/1994", lifePath: "2", dayBorn: "1", chineseZodiac: "Dog", siderealSunSign: "Aries" },
       { name: "Belal Muhammad", dob: "07/09/1988", lifePath: "7", dayBorn: "9", chineseZodiac: "Dragon", siderealSunSign: "Cancer" },
       { name: "Gilbert Burns", dob: "07/20/1986", lifePath: "7", dayBorn: "2", chineseZodiac: "Tiger", siderealSunSign: "Cancer" },
