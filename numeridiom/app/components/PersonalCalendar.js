@@ -95,10 +95,18 @@ const PersonalCalendar = ({ birthdate }) => {
           const date = `${currentDate.getMonth() + 1}/${dayCount}/${currentDate.getFullYear()}`;
           const personalDayNumber = calculateNumber(personalMonth, dayCount.toString());
           const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
+          const showFullEquation = [11, 22, 33].includes(parseInt(personalDayNumber));
           week.push(
-            <td key={dayCount} className="p-2 border text-center">
+            <td key={dayCount} className="p-2 border text-center relative">
               <div>{dayCount}</div>
-              <div className="text-xs">PD={personalDayNumber}</div>
+              <div className="text-xs">
+                PD={personalDayNumber}
+                {showFullEquation && (
+                  <span className="ml-1 cursor-pointer" title={`${personalMonth} + ${dayCount} = ${personalDayNumber}`}>
+                    i
+                  </span>
+                )}
+              </div>
               {personalMonthChange && (
                 <div className="text-xs text-blue-600">PM={personalMonthChange.number}</div>
               )}
