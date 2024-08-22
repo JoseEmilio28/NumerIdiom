@@ -7,9 +7,11 @@ const PersonalCalendar = ({ birthdate }) => {
   const [personalMonth, setPersonalMonth] = useState('');
   const [personalDay, setPersonalDay] = useState('');
   const [showInfo, setShowInfo] = useState(false);
+  const [personalMonthChanges, setPersonalMonthChanges] = useState([]);
 
   useEffect(() => {
     calculatePersonalNumbers();
+    calculatePersonalMonthChanges();
   }, [currentDate, birthdate]);
 
   const calculatePersonalNumbers = () => {
@@ -39,6 +41,30 @@ const PersonalCalendar = ({ birthdate }) => {
     setPersonalDay(personalDayNumber);
   };
 
+  const calculatePersonalMonthChanges = () => {
+    const [birthMonth, birthDay, birthYear] = birthdate.split('/');
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+    const changes = [];
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const isAfterBirthday = new Date(currentYear, currentMonth - 1, day) >= new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
+      const personalYearNumber = isAfterBirthday
+        ? calculateNumber(calculateNumber(birthMonth, birthDay), currentYear.toString())
+        : calculateNumber(calculateNumber(birthMonth, birthDay), (currentYear - 1).toString());
+      const personalMonthNumber = parseInt(birthDay) <= day
+        ? calculateNumber(personalYearNumber, currentMonth.toString())
+        : calculateNumber(personalYearNumber, (currentMonth - 1 || 12).toString());
+
+      if (day === 1 || personalMonthNumber !== changes[changes.length - 1]?.number) {
+        changes.push({ day, number: personalMonthNumber });
+      }
+    }
+
+    setPersonalMonthChanges(changes);
+  };
+
   const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
 
@@ -64,10 +90,14 @@ const PersonalCalendar = ({ birthdate }) => {
         } else {
           const date = `${currentDate.getMonth() + 1}/${dayCount}/${currentDate.getFullYear()}`;
           const personalDayNumber = calculateNumber(personalMonth, dayCount.toString());
+          const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
           week.push(
             <td key={dayCount} className="p-2 border text-center">
               <div>{dayCount}</div>
               <div className="text-xs">PD={personalDayNumber}</div>
+              {personalMonthChange && (
+                <div className="text-xs text-blue-600">PM={personalMonthChange.number}</div>
+              )}
             </td>
           );
           dayCount++;
