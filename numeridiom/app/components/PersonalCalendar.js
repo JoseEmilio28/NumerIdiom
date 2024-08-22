@@ -47,9 +47,24 @@ const PersonalCalendar = ({ birthdate }) => {
     const birthdayThisYear = new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
     const isAfterBirthday = currentDate >= birthdayThisYear;
     const personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), isAfterBirthday ? currentYear.toString() : (currentYear - 1).toString());
+
+    // Calculate the personal month number for the current month
     const personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
 
-    changes.push({ day: 1, number: personalMonthNumber });
+    // Determine the day when the personal month changes
+    let changeDay = parseInt(birthDay);
+    if (changeDay > daysInMonth) {
+      changeDay = daysInMonth;
+    }
+
+    // If the current date is before the change day, use the previous month's number
+    if (currentDate.getDate() < changeDay) {
+      const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+      const prevMonthNumber = calculateNumber(personalYearNumber, prevMonth.toString());
+      changes.push({ day: 1, number: prevMonthNumber });
+    }
+
+    changes.push({ day: changeDay, number: personalMonthNumber });
 
     setPersonalMonthChanges(changes);
   };
@@ -79,12 +94,13 @@ const PersonalCalendar = ({ birthdate }) => {
         } else {
           const date = `${currentDate.getMonth() + 1}/${dayCount}/${currentDate.getFullYear()}`;
           const personalDayNumber = calculateNumber(personalMonth, dayCount.toString());
+          const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
           week.push(
             <td key={dayCount} className="p-2 border text-center">
               <div>{dayCount}</div>
               <div className="text-xs">PD={personalDayNumber}</div>
-              {dayCount === 1 && (
-                <div className="text-xs text-blue-600">PM={personalMonth}</div>
+              {personalMonthChange && (
+                <div className="text-xs text-blue-600">PM={personalMonthChange.number}</div>
               )}
             </td>
           );
