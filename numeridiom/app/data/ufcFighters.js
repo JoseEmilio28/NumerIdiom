@@ -73,5 +73,50 @@ export const ufcFighters = [
       { name: "Arman Tsarukyan", dob: "10/11/1996", lifePath: "9", dayBorn: "2", chineseZodiac: "Rat", siderealSunSign: "Libra" },
       { name: "Dan Hooker", dob: "02/13/1990", lifePath: "5", dayBorn: "4", chineseZodiac: "Horse", siderealSunSign: "Aquarius" }
     ]
+  },
+  {
+    division: "Featherweight",
+    fighters: [
+      { name: "Alexander Volkanovski", dob: "09/29/1988", lifePath: "4", dayBorn: "2", chineseZodiac: "Dragon", siderealSunSign: "Virgo" },
+      { name: "Yair Rodriguez", dob: "10/06/1992", lifePath: "9", dayBorn: "6", chineseZodiac: "Monkey", siderealSunSign: "Virgo" },
+      { name: "Max Holloway", dob: "12/04/1991", lifePath: "8", dayBorn: "4", chineseZodiac: "Goat", siderealSunSign: "Scorpio" },
+      { name: "Brian Ortega", dob: "02/21/1991", lifePath: "6", dayBorn: "3", chineseZodiac: "Goat", siderealSunSign: "Aquarius" },
+      { name: "Arnold Allen", dob: "01/22/1994", lifePath: "9", dayBorn: "4", chineseZodiac: "Dog", siderealSunSign: "Capricorn" },
+      { name: "Josh Emmett", dob: "03/04/1985", lifePath: "3", dayBorn: "4", chineseZodiac: "Ox", siderealSunSign: "Pisces" },
+      { name: "Calvin Kattar", dob: "03/26/1988", lifePath: "1", dayBorn: "8", chineseZodiac: "Dragon", siderealSunSign: "Aries" },
+      { name: "Ilia Topuria", dob: "01/21/1997", lifePath: "3", dayBorn: "3", chineseZodiac: "Ox", siderealSunSign: "Capricorn" },
+      { name: "Giga Chikadze", dob: "08/25/1988", lifePath: "5", dayBorn: "7", chineseZodiac: "Dragon", siderealSunSign: "Leo" },
+      { name: "Movsar Evloev", dob: "02/11/1994", lifePath: "9", dayBorn: "2", chineseZodiac: "Dog", siderealSunSign: "Aquarius" }
+    ]
+  },
+  {
+    division: "Bantamweight",
+    fighters: [
+      { name: "Aljamain Sterling", dob: "07/31/1989", lifePath: "1", dayBorn: "4", chineseZodiac: "Snake", siderealSunSign: "Cancer" },
+      { name: "Sean O'Malley", dob: "10/24/1994", lifePath: "3", dayBorn: "6", chineseZodiac: "Dog", siderealSunSign: "Libra" },
+      { name: "Petr Yan", dob: "02/11/1993", lifePath: "8", dayBorn: "2", chineseZodiac: "Rooster", siderealSunSign: "Aquarius" },
+      { name: "Merab Dvalishvili", dob: "01/10/1991", lifePath: "4", dayBorn: "1", chineseZodiac: "Goat", siderealSunSign: "Capricorn" },
+      { name: "Cory Sandhagen", dob: "04/20/1992", lifePath: "8", dayBorn: "2", chineseZodiac: "Monkey", siderealSunSign: "Aries" },
+      { name: "Marlon Vera", dob: "12/02/1992", lifePath: "7", dayBorn: "2", chineseZodiac: "Monkey", siderealSunSign: "Scorpio" },
+      { name: "Rob Font", dob: "06/25/1987", lifePath: "1", dayBorn: "7", chineseZodiac: "Rabbit", siderealSunSign: "Gemini" },
+      { name: "Dominick Cruz", dob: "03/09/1985", lifePath: "8", dayBorn: "9", chineseZodiac: "Ox", siderealSunSign: "Pisces" },
+      { name: "Pedro Munhoz", dob: "09/07/1986", lifePath: "4", dayBorn: "7", chineseZodiac: "Tiger", siderealSunSign: "Leo" },
+      { name: "Song Yadong", dob: "12/02/1997", lifePath: "3", dayBorn: "2", chineseZodiac: "Ox", siderealSunSign: "Scorpio" }
+    ]
+  },
+  {
+    division: "Flyweight",
+    fighters: [
+      { name: "Brandon Moreno", dob: "12/07/1993", lifePath: "5", dayBorn: "7", chineseZodiac: "Rooster", siderealSunSign: "Scorpio" },
+      { name: "Deiveson Figueiredo", dob: "12/18/1987", lifePath: "1", dayBorn: "9", chineseZodiac: "Rabbit", siderealSunSign: "Sagittarius" },
+      { name: "Alexandre Pantoja", dob: "04/16/1990", lifePath: "3", dayBorn: "7", chineseZodiac: "Horse", siderealSunSign: "Aries" },
+      { name: "Kai Kara-France", dob: "03/26/1993", lifePath: "6", dayBorn: "8", chineseZodiac: "Rooster", siderealSunSign: "Aries" },
+      { name: "Brandon Royval", dob: "08/06/1992", lifePath: "7", dayBorn: "6", chineseZodiac: "Monkey", siderealSunSign: "Cancer" },
+      { name: "Matheus Nicolau", dob: "01/06/1993", lifePath: "1", dayBorn: "6", chineseZodiac: "Rooster", siderealSunSign: "Capricorn" },
+      { name: "Alex Perez", dob: "03/21/1992", lifePath: "9", dayBorn: "3", chineseZodiac: "Monkey", siderealSunSign: "Pisces" },
+      { name: "Amir Albazi", dob: "01/01/1994", lifePath: "6", dayBorn: "1", chineseZodiac: "Rooster", siderealSunSign: "Capricorn" },
+      { name: "Matt Schnell", dob: "01/15/1990", lifePath: "8", dayBorn: "6", chineseZodiac: "Horse", siderealSunSign: "Capricorn" },
+      { name: "David Dvorak", dob: "06/05/1992", lifePath: "5", dayBorn: "5", chineseZodiac: "Monkey", siderealSunSign: "Taurus" }
+    ]
   }
 ];
