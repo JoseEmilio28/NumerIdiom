@@ -9,12 +9,16 @@ const addDigits = (num) => {
   return sum > 9 ? addDigits(sum) : sum;
 };
 
+export const reduceNumber = (num) => {
+  if (num === 11 || num === 22 || num === 33) {
+    return num;
+  }
+  return addDigits(num);
+};
+
 export const calculateNumber = (num1, num2) => {
   let sum = parseInt(num1) + parseInt(num2);
-  while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
-    sum = addDigits(sum);
-  }
-  return sum.toString();
+  return reduceNumber(sum).toString();
 };
 
 export const calculateLifePath = (birthdate) => {

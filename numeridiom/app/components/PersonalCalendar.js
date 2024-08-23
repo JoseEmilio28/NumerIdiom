@@ -94,9 +94,9 @@ const PersonalCalendar = ({ birthdate }) => {
         } else {
           const date = `${currentDate.getMonth() + 1}/${dayCount}/${currentDate.getFullYear()}`;
           const fullPersonalDayNumber = calculateNumber(personalMonth, dayCount.toString());
-          const personalDayNumber = reduceNumber(fullPersonalDayNumber);
+          const personalDayNumber = reduceNumber(parseInt(fullPersonalDayNumber));
           const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
-          const showFullEquation = [11, 22, 33].includes(parseInt(fullPersonalDayNumber));
+          const showFullEquation = fullPersonalDayNumber !== personalDayNumber.toString();
           week.push(
             <td key={dayCount} className="p-2 border text-center relative">
               <div>{dayCount}</div>
