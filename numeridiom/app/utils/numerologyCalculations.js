@@ -9,11 +9,12 @@ const addDigits = (num) => {
   return sum > 9 ? addDigits(sum) : sum;
 };
 
-export const reduceNumber = (num) => {
+export const reduceNumber = (num, preserveEleven = false) => {
   if (num === 11 || num === 22 || num === 33) {
     return num;
   }
-  return addDigits(num);
+  const reduced = addDigits(num);
+  return (preserveEleven && reduced === 2) ? 11 : reduced;
 };
 
 export const calculateNumber = (num1, num2) => {
@@ -23,7 +24,8 @@ export const calculateNumber = (num1, num2) => {
 
 export const calculateLifePath = (birthdate) => {
   const [month, day, year] = birthdate.split('/');
-  return calculateNumber(calculateNumber(month, day), year);
+  const sum = parseInt(calculateNumber(month, day)) + parseInt(year);
+  return reduceNumber(sum, true).toString();
 };
 
 export const calculateDayBorn = (birthdate) => {
@@ -32,7 +34,7 @@ export const calculateDayBorn = (birthdate) => {
   if (dayNumber === 11 || dayNumber === 22 || dayNumber === 33) {
     return dayNumber.toString();
   }
-  return calculateNumber(day, '0');
+  return reduceNumber(dayNumber, true).toString();
 };
 
 export const calculateDayOfYear = (birthdate) => {
