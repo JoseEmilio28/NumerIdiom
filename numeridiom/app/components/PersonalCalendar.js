@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { calculateNumber } from '../utils/numerologyCalculations';
+import { calculateNumber, reduceNumber } from '../utils/numerologyCalculations';
 
 const PersonalCalendar = ({ birthdate }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -93,16 +93,17 @@ const PersonalCalendar = ({ birthdate }) => {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
           const date = `${currentDate.getMonth() + 1}/${dayCount}/${currentDate.getFullYear()}`;
-          const personalDayNumber = calculateNumber(personalMonth, dayCount.toString());
+          const fullPersonalDayNumber = calculateNumber(personalMonth, dayCount.toString());
+          const personalDayNumber = reduceNumber(fullPersonalDayNumber);
           const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
-          const showFullEquation = [11, 22, 33].includes(parseInt(personalDayNumber));
+          const showFullEquation = [11, 22, 33].includes(parseInt(fullPersonalDayNumber));
           week.push(
             <td key={dayCount} className="p-2 border text-center relative">
               <div>{dayCount}</div>
               <div className="text-xs">
                 PD={personalDayNumber}
                 {showFullEquation && (
-                  <span className="ml-1 cursor-pointer" title={`${personalMonth} + ${dayCount} = ${personalDayNumber}`}>
+                  <span className="ml-1 cursor-pointer" title={`${personalMonth} + ${dayCount} = ${fullPersonalDayNumber}`}>
                     i
                   </span>
                 )}
