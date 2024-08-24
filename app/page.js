@@ -1,5 +1,5 @@
 import React from 'react';
-import PersonalCalendar from './components/PersonalCalendar';
+import PersonalCalendar from '../components/PersonalCalendar';
 
 export default function Home() {
   return (
