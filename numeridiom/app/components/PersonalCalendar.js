@@ -105,12 +105,16 @@ const PersonalCalendar = ({ birthdate }) => {
           const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
           const showFullEquation = true; // We'll always show the full equation now
 
+          const personalMonthForDay = personalMonthChange ? personalMonthChange.number : personalMonth;
+          const fullEquation = `${personalMonthForDay} + ${dayCount} = ${addDigits(parseInt(personalMonthForDay) + parseInt(dayCount))}`;
+          const tooltipText = `Full equation: ${fullEquation}${personalDayNumber !== addDigits(parseInt(personalMonthForDay) + parseInt(dayCount)).toString() ? ` → ${personalDayNumber}` : ''}`;
+
           week.push(
             <td key={dayCount} className="p-2 border text-center relative">
               <div>{dayCount}</div>
               <div className="text-xs">
                 PD={personalDayNumber}
-                <span className="ml-1 cursor-pointer" title={`${personalMonth} + ${dayCount} = ${personalDayNumber}`}>
+                <span className="ml-1 cursor-pointer" title={tooltipText}>
                   i
                 </span>
               </div>
