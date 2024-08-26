@@ -93,7 +93,9 @@ const PersonalCalendar = ({ birthdate }) => {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
           const date = `${currentDate.getMonth() + 1}/${dayCount}/${currentDate.getFullYear()}`;
-          const personalDayNumber = calculateNumber(personalMonth, dayCount.toString());
+          const reducedPersonalMonth = reduceNumber(parseInt(personalMonth));
+          const reducedDay = reduceNumber(dayCount);
+          const personalDayNumber = calculateNumber(reducedPersonalMonth.toString(), reducedDay.toString());
           const reducedPersonalDayNumber = reduceNumber(parseInt(personalDayNumber), true);
           const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
           const showFullEquation = personalDayNumber !== reducedPersonalDayNumber.toString();
@@ -103,7 +105,7 @@ const PersonalCalendar = ({ birthdate }) => {
               <div className="text-xs">
                 PD={reducedPersonalDayNumber}
                 {showFullEquation && (
-                  <span className="ml-1 cursor-pointer" title={`${personalMonth} + ${dayCount} = ${personalDayNumber} → ${reducedPersonalDayNumber}`}>
+                  <span className="ml-1 cursor-pointer" title={`${reducedPersonalMonth} + ${reducedDay} = ${personalDayNumber} → ${reducedPersonalDayNumber}`}>
                     i
                   </span>
                 )}
