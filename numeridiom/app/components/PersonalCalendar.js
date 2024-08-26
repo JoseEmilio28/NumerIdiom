@@ -3,8 +3,8 @@ import { calculateNumber, reduceNumber, addDigits } from '../utils/numerologyCal
 
 const PersonalCalendar = ({ birthdate }) => {
   const calculatePersonalDay = (personalMonth, currentDay) => {
-    const sum = addDigits(parseInt(personalMonth)) + parseInt(currentDay);
-    if (sum === 11 || sum === 22 || sum === 28 || sum === 33) {
+    const sum = addDigits(parseInt(personalMonth)) + addDigits(parseInt(currentDay));
+    if (sum === 11 || sum === 22) {
       return sum.toString();
     }
     return addDigits(sum).toString();
@@ -64,13 +64,14 @@ const PersonalCalendar = ({ birthdate }) => {
       changeDay = daysInMonth;
     }
 
-    // If the current date is before the change day, use the previous month's number
-    if (currentDate.getDate() < changeDay) {
-      const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-      const prevMonthNumber = calculateNumber(personalYearNumber, prevMonth.toString());
-      changes.push({ day: 1, number: prevMonthNumber });
-    }
+    // Calculate the previous month's number
+    const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+    const prevMonthNumber = calculateNumber(personalYearNumber, prevMonth.toString());
 
+    // Add the previous month's number from day 1 to the day before the change
+    changes.push({ day: 1, number: prevMonthNumber });
+
+    // Add the current month's number from the change day
     changes.push({ day: changeDay, number: personalMonthNumber });
 
     setPersonalMonthChanges(changes);
