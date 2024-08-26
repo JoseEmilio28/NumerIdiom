@@ -4,6 +4,9 @@ import { calculateNumber, reduceNumber, addDigits } from '../utils/numerologyCal
 const PersonalCalendar = ({ birthdate }) => {
   const calculatePersonalDay = (personalMonth, currentDay) => {
     const sum = addDigits(parseInt(personalMonth)) + addDigits(parseInt(currentDay));
+    if (sum === 28) {
+      return '28';
+    }
     return reduceNumber(sum, true).toString();
   };
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -133,7 +136,9 @@ const PersonalCalendar = ({ birthdate }) => {
           const totalSum = daySum + parseInt(personalMonthNumber);
           equation += ` = ${totalSum}`;
           
-          if (totalSum > 9 && totalSum !== 11 && totalSum !== 22) {
+          if (totalSum === 28) {
+            // Do nothing, keep 28 as is
+          } else if (totalSum > 9 && totalSum !== 11 && totalSum !== 22) {
             equation += ` → ${personalDayNumber}`;
           }
 
