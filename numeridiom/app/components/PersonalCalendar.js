@@ -100,11 +100,11 @@ const PersonalCalendar = ({ birthdate }) => {
           const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
           const showFullEquation = personalDayNumber !== reducedPersonalDayNumber.toString();
           
-          let displayPersonalDay = reducedPersonalDayNumber.toString();
+          let displayPersonalDay = personalDayNumber;
           if (personalDayNumber === '28') {
             displayPersonalDay = '28/1';
-          } else if (reducedPersonalDayNumber === 22) {
-            displayPersonalDay = '22';
+          } else {
+            displayPersonalDay = reducedPersonalDayNumber.toString();
           }
 
           week.push(
@@ -113,7 +113,7 @@ const PersonalCalendar = ({ birthdate }) => {
               <div className="text-xs">
                 PD={displayPersonalDay}
                 {showFullEquation && (
-                  <span className="ml-1 cursor-pointer" title={`${reducedPersonalMonth} + ${reducedDay} = ${personalDayNumber} ${personalDayNumber === '28' ? '→ 28/1' : (reducedPersonalDayNumber === 22 ? '→ 22' : (personalDayNumber !== reducedPersonalDayNumber.toString() ? `→ ${reducedPersonalDayNumber}` : ''))}`}>
+                  <span className="ml-1 cursor-pointer" title={`${reducedPersonalMonth} + ${reducedDay} = ${personalDayNumber}${personalDayNumber !== displayPersonalDay ? ` → ${displayPersonalDay}` : ''}`}>
                     i
                   </span>
                 )}
