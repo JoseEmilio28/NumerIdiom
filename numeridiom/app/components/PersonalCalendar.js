@@ -118,14 +118,22 @@ const PersonalCalendar = ({ birthdate }) => {
           // Calculate the full equation
           let equation = `${personalMonthNumber} + `;
           let daySum = 0;
-          dayCount.toString().split('').forEach(digit => {
-            equation += digit + ' + ';
-            daySum += parseInt(digit);
-          });
-          equation = equation.slice(0, -3); // Remove the last ' + '
-          equation += ` = ${daySum + parseInt(personalMonthNumber)}`;
           
-          if (daySum + parseInt(personalMonthNumber) > 9 && daySum + parseInt(personalMonthNumber) !== 11 && daySum + parseInt(personalMonthNumber) !== 22) {
+          if (dayCount === 11 || dayCount === 22) {
+            equation += dayCount;
+            daySum = dayCount;
+          } else {
+            dayCount.toString().split('').forEach(digit => {
+              equation += digit + ' + ';
+              daySum += parseInt(digit);
+            });
+            equation = equation.slice(0, -3); // Remove the last ' + '
+          }
+          
+          const totalSum = daySum + parseInt(personalMonthNumber);
+          equation += ` = ${totalSum}`;
+          
+          if (totalSum > 9 && totalSum !== 11 && totalSum !== 22) {
             equation += ` → ${personalDayNumber}`;
           }
 
