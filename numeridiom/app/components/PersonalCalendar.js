@@ -4,10 +4,7 @@ import { calculateNumber, reduceNumber, addDigits } from '../utils/numerologyCal
 const PersonalCalendar = ({ birthdate }) => {
   const calculatePersonalDay = (personalMonth, currentDay) => {
     const sum = addDigits(parseInt(personalMonth)) + addDigits(parseInt(currentDay));
-    if (sum === 11 || sum === 22) {
-      return sum.toString();
-    }
-    return addDigits(sum).toString();
+    return reduceNumber(sum, true).toString();
   };
   const [currentDate, setCurrentDate] = useState(new Date());
   const [personalYear, setPersonalYear] = useState('');
@@ -91,6 +88,17 @@ const PersonalCalendar = ({ birthdate }) => {
   const renderCalendar = () => {
     const calendar = [];
     let dayCount = 1;
+    const [birthMonth, birthDay] = birthdate.split('/');
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    // Determine if we're in the personal year before or after the birthday
+    const birthdayThisYear = new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
+    const isAfterBirthday = currentDate >= birthdayThisYear;
+    const personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), isAfterBirthday ? currentYear.toString() : (currentYear - 1).toString());
+
+    // Calculate the personal month number
+    let personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
 
     for (let i = 0; i < 6; i++) {
       const week = [];
@@ -100,26 +108,38 @@ const PersonalCalendar = ({ birthdate }) => {
         } else if (dayCount > daysInMonth) {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
-          const date = `${currentDate.getMonth() + 1}/${dayCount}/${currentDate.getFullYear()}`;
-          const personalDayNumber = calculatePersonalDay(personalMonth, dayCount.toString());
-          const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
-          const showFullEquation = true; // We'll always show the full equation now
+          // Check if we need to change the personal month
+          if (dayCount === parseInt(birthDay)) {
+            personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+          }
 
-          const personalMonthForDay = personalMonthChange ? personalMonthChange.number : personalMonth;
-          const fullEquation = `${personalMonthForDay} + ${dayCount} = ${addDigits(parseInt(personalMonthForDay) + parseInt(dayCount))}`;
-          const tooltipText = `Full equation: ${fullEquation}${personalDayNumber !== addDigits(parseInt(personalMonthForDay) + parseInt(dayCount)).toString() ? ` → ${personalDayNumber}` : ''}`;
+          const personalDayNumber = calculatePersonalDay(personalMonthNumber, dayCount.toString());
+          
+          // Calculate the full equation
+          let equation = `${personalMonthNumber} + `;
+          let daySum = 0;
+          dayCount.toString().split('').forEach(digit => {
+            equation += digit + ' + ';
+            daySum += parseInt(digit);
+          });
+          equation = equation.slice(0, -3); // Remove the last ' + '
+          equation += ` = ${daySum + parseInt(personalMonthNumber)}`;
+          
+          if (daySum + parseInt(personalMonthNumber) > 9 && daySum + parseInt(personalMonthNumber) !== 11 && daySum + parseInt(personalMonthNumber) !== 22) {
+            equation += ` → ${personalDayNumber}`;
+          }
 
           week.push(
             <td key={dayCount} className="p-2 border text-center relative">
               <div>{dayCount}</div>
               <div className="text-xs">
                 PD={personalDayNumber}
-                <span className="ml-1 cursor-pointer" title={tooltipText}>
+                <span className="ml-1 cursor-pointer" title={equation}>
                   i
                 </span>
               </div>
-              {personalMonthChange && (
-                <div className="text-xs text-blue-600">PM={personalMonthChange.number}</div>
+              {dayCount === parseInt(birthDay) && (
+                <div className="text-xs text-blue-600">PM={personalMonthNumber}</div>
               )}
             </td>
           );
