@@ -27,24 +27,26 @@ const PersonalCalendar = ({ birthdate }) => {
     const currentMonth = currentDate.getMonth() + 1;
     const currentDay = currentDate.getDate();
 
-    // Check if it's the user's birthday
-    const isBirthday = currentMonth === parseInt(birthMonth) && currentDay === parseInt(birthDay);
+    // Determine if we're in the new Personal Year
+    const birthdayThisYear = new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
+    const isNewPersonalYear = currentDate >= birthdayThisYear;
 
     // Calculate Personal Year
-    let personalYearNumber;
-    if (isBirthday) {
-      // On birthday, update to the new Personal Year
-      personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), currentYear.toString());
-    } else {
-      // Check if the birthday has occurred this year
-      const birthdayThisYear = new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
-      const isAfterBirthday = currentDate >= birthdayThisYear;
-      personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), isAfterBirthday ? currentYear.toString() : (currentYear - 1).toString());
-    }
+    const personalYearNumber = calculateNumber(
+      calculateNumber(birthMonth, birthDay),
+      isNewPersonalYear ? currentYear.toString() : (currentYear - 1).toString()
+    );
     setPersonalYear(personalYearNumber);
 
     // Calculate Personal Month
-    const personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+    let personalMonthNumber;
+    if (isNewPersonalYear || (currentMonth > parseInt(birthMonth))) {
+      // If it's a new personal year or we're past the birth month, use the current month
+      personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+    } else {
+      // If we're before the birth month in the current calendar year, but still in the previous personal year
+      personalMonthNumber = calculateNumber(personalYearNumber, (currentMonth + 12).toString());
+    }
     setPersonalMonth(personalMonthNumber);
 
     // Calculate Personal Day
