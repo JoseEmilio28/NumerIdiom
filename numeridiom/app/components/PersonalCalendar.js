@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { calculateNumber, reduceNumber } from '../utils/numerologyCalculations';
+import { calculateNumber, reduceNumber, addDigits } from '../utils/numerologyCalculations';
 
 const PersonalCalendar = ({ birthdate }) => {
+  const calculatePersonalDay = (personalMonth, currentDay) => {
+    const sum = addDigits(parseInt(personalMonth)) + parseInt(currentDay);
+    if (sum === 11 || sum === 22 || sum === 28 || sum === 33) {
+      return sum.toString();
+    }
+    return addDigits(sum).toString();
+  };
   const [currentDate, setCurrentDate] = useState(new Date());
   const [personalYear, setPersonalYear] = useState('');
   const [personalMonth, setPersonalMonth] = useState('');
@@ -93,21 +100,18 @@ const PersonalCalendar = ({ birthdate }) => {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
           const date = `${currentDate.getMonth() + 1}/${dayCount}/${currentDate.getFullYear()}`;
-          const personalDayNumber = calculateNumber(personalMonth, dayCount.toString());
-          const reducedPersonalDayNumber = reduceNumber(parseInt(personalDayNumber), true);
+          const personalDayNumber = calculatePersonalDay(personalMonth, dayCount.toString());
           const personalMonthChange = personalMonthChanges.find(change => change.day === dayCount);
-          const showFullEquation = personalDayNumber !== reducedPersonalDayNumber.toString();
+          const showFullEquation = true; // We'll always show the full equation now
 
           week.push(
             <td key={dayCount} className="p-2 border text-center relative">
               <div>{dayCount}</div>
               <div className="text-xs">
-                PD={reducedPersonalDayNumber}
-                {showFullEquation && (
-                  <span className="ml-1 cursor-pointer" title={`${personalMonth} + ${dayCount} = ${personalDayNumber} → ${reducedPersonalDayNumber}`}>
-                    i
-                  </span>
-                )}
+                PD={personalDayNumber}
+                <span className="ml-1 cursor-pointer" title={`${personalMonth} + ${dayCount} = ${personalDayNumber}`}>
+                  i
+                </span>
               </div>
               {personalMonthChange && (
                 <div className="text-xs text-blue-600">PM={personalMonthChange.number}</div>
