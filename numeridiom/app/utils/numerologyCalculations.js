@@ -1,4 +1,4 @@
-const addDigits = (num) => {
+export const addDigits = (num) => {
   if (num === 11 || num === 22 || num === 33) {
     return num;
   }
