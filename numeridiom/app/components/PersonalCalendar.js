@@ -27,12 +27,20 @@ const PersonalCalendar = ({ birthdate }) => {
     const currentMonth = currentDate.getMonth() + 1;
     const currentDay = currentDate.getDate();
 
-    // Check if the birthday has occurred this year
-    const birthdayThisYear = new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
-    const isAfterBirthday = currentDate >= birthdayThisYear;
+    // Check if it's the user's birthday
+    const isBirthday = currentMonth === parseInt(birthMonth) && currentDay === parseInt(birthDay);
 
     // Calculate Personal Year
-    const personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), isAfterBirthday ? currentYear.toString() : (currentYear - 1).toString());
+    let personalYearNumber;
+    if (isBirthday) {
+      // On birthday, update to the new Personal Year
+      personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), currentYear.toString());
+    } else {
+      // Check if the birthday has occurred this year
+      const birthdayThisYear = new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
+      const isAfterBirthday = currentDate >= birthdayThisYear;
+      personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), isAfterBirthday ? currentYear.toString() : (currentYear - 1).toString());
+    }
     setPersonalYear(personalYearNumber);
 
     // Calculate Personal Month
