@@ -100,8 +100,9 @@ const PersonalCalendar = ({ birthdate }) => {
     const isAfterBirthday = currentDate >= birthdayThisYear;
     const personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), isAfterBirthday ? currentYear.toString() : (currentYear - 1).toString());
 
-    // Calculate the personal month number
-    let personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+    // Calculate the personal month numbers
+    const prevMonthNumber = calculateNumber(personalYearNumber, (currentMonth - 1).toString() || '12');
+    const currentMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
 
     for (let i = 0; i < 6; i++) {
       const week = [];
@@ -111,17 +112,15 @@ const PersonalCalendar = ({ birthdate }) => {
         } else if (dayCount > daysInMonth) {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
-          // Check if we need to change the personal month
-          if (dayCount === parseInt(birthDay)) {
-            personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
-          }
+          // Use the previous month's number until we reach the birth day
+          const personalMonthNumber = dayCount < parseInt(birthDay) ? prevMonthNumber : currentMonthNumber;
 
           const personalDayNumber = calculatePersonalDay(personalMonthNumber, dayCount.toString());
-          
+        
           // Calculate the full equation
           let equation = `${personalMonthNumber} + `;
           let daySum = 0;
-          
+        
           if (dayCount === 11 || dayCount === 22) {
             equation += dayCount;
             daySum = dayCount;
@@ -132,10 +131,10 @@ const PersonalCalendar = ({ birthdate }) => {
             });
             equation = equation.slice(0, -3); // Remove the last ' + '
           }
-          
+        
           const totalSum = daySum + parseInt(personalMonthNumber);
           equation += ` = ${totalSum}`;
-          
+        
           if (totalSum === 28) {
             // Do nothing, keep 28 as is
           } else if (totalSum > 9 && totalSum !== 11 && totalSum !== 22) {
@@ -152,7 +151,7 @@ const PersonalCalendar = ({ birthdate }) => {
                 </span>
               </div>
               {dayCount === parseInt(birthDay) && (
-                <div className="text-xs text-blue-600">PM={personalMonthNumber}</div>
+                <div className="text-xs text-blue-600">PM={currentMonthNumber}</div>
               )}
             </td>
           );
