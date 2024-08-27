@@ -31,19 +31,14 @@ const PersonalCalendar = ({ birthdate }) => {
 
     // Calculate Personal Month
     let personalMonthNumber;
-    if (isNewPersonalYear) {
-      if (currentDay >= parseInt(birthDay)) {
-        personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
-      } else {
-        personalMonthNumber = calculateNumber(personalYearNumber, (currentMonth - 1 || 12).toString());
-      }
+    const adjustedMonth = isNewPersonalYear 
+      ? currentMonth - parseInt(birthMonth) + 1 
+      : currentMonth + 12 - parseInt(birthMonth) + 1;
+
+    if (currentDay >= parseInt(birthDay)) {
+      personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
     } else {
-      const adjustedMonth = currentMonth + 12 - parseInt(birthMonth);
-      if (currentDay >= parseInt(birthDay)) {
-        personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
-      } else {
-        personalMonthNumber = calculateNumber(personalYearNumber, (adjustedMonth - 1).toString());
-      }
+      personalMonthNumber = calculateNumber(personalYearNumber, (adjustedMonth - 1).toString());
     }
     setPersonalMonth(personalMonthNumber);
 
@@ -83,20 +78,16 @@ const PersonalCalendar = ({ birthdate }) => {
     const isNewPersonalYear = currentDate >= birthdayThisYear;
 
     // Calculate Personal Year
-    const personalYearNumber = calculateNumber(
+    let personalYearNumber = calculateNumber(
       calculateNumber(birthMonth, birthDay),
       isNewPersonalYear ? currentYear.toString() : (currentYear - 1).toString()
     );
 
-    // Calculate Personal Month for the previous month
-    let personalMonthNumber;
-    if (isNewPersonalYear) {
-      const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-      personalMonthNumber = calculateNumber(personalYearNumber, prevMonth.toString());
-    } else {
-      const adjustedMonth = (currentMonth - 1 + 12 - parseInt(birthMonth)) % 12 || 12;
-      personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
-    }
+    // Calculate initial Personal Month
+    const adjustedMonth = isNewPersonalYear 
+      ? currentMonth - parseInt(birthMonth) + 1 
+      : currentMonth + 12 - parseInt(birthMonth) + 1;
+    let personalMonthNumber = calculateNumber(personalYearNumber, (adjustedMonth - 1).toString());
 
     for (let i = 0; i < 6; i++) {
       const week = [];
@@ -106,9 +97,15 @@ const PersonalCalendar = ({ birthdate }) => {
         } else if (dayCount > daysInMonth) {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
-          // Check if we need to update the Personal Month
-          if (dayCount === parseInt(birthDay)) {
-            personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+          // Check if we need to update the Personal Year and Month
+          if (currentMonth === parseInt(birthMonth) && dayCount === parseInt(birthDay)) {
+            personalYearNumber = calculateNumber(
+              calculateNumber(birthMonth, birthDay),
+              currentYear.toString()
+            );
+            personalMonthNumber = calculateNumber(personalYearNumber, '1');
+          } else if (dayCount === parseInt(birthDay)) {
+            personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
           }
 
           const personalDayNumber = calculatePersonalDay(personalMonthNumber, dayCount.toString());
@@ -146,7 +143,12 @@ const PersonalCalendar = ({ birthdate }) => {
                   i
                 </span>
               </div>
-              {dayCount === parseInt(birthDay) && (
+              {currentMonth === parseInt(birthMonth) && dayCount === parseInt(birthDay) && (
+                <div className="text-xs text-blue-600">
+                  PY={personalYearNumber}, PM={personalMonthNumber}
+                </div>
+              )}
+              {currentMonth !== parseInt(birthMonth) && dayCount === parseInt(birthDay) && (
                 <div className="text-xs text-blue-600">PM={personalMonthNumber}</div>
               )}
             </td>
