@@ -75,7 +75,22 @@ const PersonalCalendar = ({ birthdate }) => {
     );
 
     // Calculate initial Personal Month
-    let personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+    let personalMonthNumber;
+    let nextPersonalMonthNumber;
+
+    // Function to calculate the Personal Month
+    const getPersonalMonth = (year, month) => {
+      return calculateNumber(year, month.toString());
+    };
+
+    // Initialize Personal Month numbers
+    if (currentMonth === parseInt(birthMonth) && currentDate.getDate() < parseInt(birthDay)) {
+      personalMonthNumber = getPersonalMonth(personalYearNumber, ((currentMonth - 1 + 12) % 12) || 12);
+      nextPersonalMonthNumber = getPersonalMonth(personalYearNumber, currentMonth);
+    } else {
+      personalMonthNumber = getPersonalMonth(personalYearNumber, currentMonth);
+      nextPersonalMonthNumber = getPersonalMonth(personalYearNumber, (currentMonth % 12) + 1);
+    }
 
     for (let i = 0; i < 6; i++) {
       const week = [];
@@ -91,7 +106,11 @@ const PersonalCalendar = ({ birthdate }) => {
               calculateNumber(birthMonth, birthDay),
               currentYear.toString()
             );
-            personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+            personalMonthNumber = getPersonalMonth(personalYearNumber, currentMonth);
+            nextPersonalMonthNumber = getPersonalMonth(personalYearNumber, (currentMonth % 12) + 1);
+          } else if (dayCount === parseInt(birthDay)) {
+            personalMonthNumber = nextPersonalMonthNumber;
+            nextPersonalMonthNumber = getPersonalMonth(personalYearNumber, ((currentMonth + 1) % 12) || 12);
           }
 
           const personalDayNumber = calculatePersonalDay(personalMonthNumber, dayCount.toString());
@@ -129,13 +148,16 @@ const PersonalCalendar = ({ birthdate }) => {
                   i
                 </span>
               </div>
-              {currentMonth === parseInt(birthMonth) && dayCount === parseInt(birthDay) && (
+              {dayCount === parseInt(birthDay) && (
                 <div className="text-xs text-blue-600">
-                  PY={personalYearNumber}, PM={personalMonthNumber}
+                  {currentMonth === parseInt(birthMonth) ? `PY=${personalYearNumber}, ` : ''}
+                  PM={personalMonthNumber}
                 </div>
               )}
-              {currentMonth !== parseInt(birthMonth) && dayCount === parseInt(birthDay) && (
-                <div className="text-xs text-blue-600">PM={personalMonthNumber}</div>
+              {dayCount === parseInt(birthDay) - 1 && (
+                <div className="text-xs text-green-600">
+                  Next PM={nextPersonalMonthNumber}
+                </div>
               )}
             </td>
           );
