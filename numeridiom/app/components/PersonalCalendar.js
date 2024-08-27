@@ -35,11 +35,7 @@ const PersonalCalendar = ({ birthdate }) => {
       ? currentMonth - parseInt(birthMonth) + 1 
       : currentMonth + 12 - parseInt(birthMonth) + 1;
 
-    if (currentDay >= parseInt(birthDay)) {
-      personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
-    } else {
-      personalMonthNumber = calculateNumber(personalYearNumber, (adjustedMonth - 1).toString());
-    }
+    personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
     setPersonalMonth(personalMonthNumber);
 
     // Calculate Personal Day
@@ -87,7 +83,7 @@ const PersonalCalendar = ({ birthdate }) => {
     const adjustedMonth = isNewPersonalYear 
       ? currentMonth - parseInt(birthMonth) + 1 
       : currentMonth + 12 - parseInt(birthMonth) + 1;
-    let personalMonthNumber = calculateNumber(personalYearNumber, (adjustedMonth - 1).toString());
+    let personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
 
     for (let i = 0; i < 6; i++) {
       const week = [];
@@ -104,8 +100,9 @@ const PersonalCalendar = ({ birthdate }) => {
               currentYear.toString()
             );
             personalMonthNumber = calculateNumber(personalYearNumber, '1');
-          } else if (dayCount === parseInt(birthDay)) {
-            personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
+          } else if (dayCount === parseInt(birthDay) && dayCount !== 1) {
+            const nextMonth = adjustedMonth + 1;
+            personalMonthNumber = calculateNumber(personalYearNumber, nextMonth.toString());
           }
 
           const personalDayNumber = calculatePersonalDay(personalMonthNumber, dayCount.toString());
