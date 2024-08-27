@@ -2,23 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { calculateNumber, reduceNumber, addDigits } from '../utils/numerologyCalculations';
 
 const PersonalCalendar = ({ birthdate }) => {
-  const calculatePersonalDay = (personalMonth, currentDay) => {
-    const sum = addDigits(parseInt(personalMonth)) + addDigits(parseInt(currentDay));
-    if (sum === 28) {
-      return '28';
-    }
-    return reduceNumber(sum, true).toString();
-  };
   const [currentDate, setCurrentDate] = useState(new Date());
   const [personalYear, setPersonalYear] = useState('');
   const [personalMonth, setPersonalMonth] = useState('');
   const [personalDay, setPersonalDay] = useState('');
   const [showInfo, setShowInfo] = useState(false);
-  const [personalMonthChanges, setPersonalMonthChanges] = useState([]);
 
   useEffect(() => {
     calculatePersonalNumbers();
-    calculatePersonalMonthChanges();
   }, [currentDate, birthdate]);
 
   const calculatePersonalNumbers = () => {
@@ -34,22 +25,17 @@ const PersonalCalendar = ({ birthdate }) => {
     // Calculate Personal Year
     const personalYearNumber = calculateNumber(
       calculateNumber(birthMonth, birthDay),
-      currentYear.toString()
+      isNewPersonalYear ? currentYear.toString() : (currentYear - 1).toString()
     );
     setPersonalYear(personalYearNumber);
 
     // Calculate Personal Month
     let personalMonthNumber;
-    if (currentMonth > parseInt(birthMonth) || (currentMonth === parseInt(birthMonth) && currentDay >= parseInt(birthDay))) {
-      // We're in or past the birth month
+    if (isNewPersonalYear) {
       personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
     } else {
-      // We're before the birth month
       const adjustedMonth = currentMonth + 12 - parseInt(birthMonth);
-      personalMonthNumber = calculateNumber(
-        calculateNumber(calculateNumber(birthMonth, birthDay), (currentYear - 1).toString()),
-        adjustedMonth.toString()
-      );
+      personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
     }
     setPersonalMonth(personalMonthNumber);
 
@@ -58,37 +44,12 @@ const PersonalCalendar = ({ birthdate }) => {
     setPersonalDay(personalDayNumber);
   };
 
-  const calculatePersonalMonthChanges = () => {
-    const [birthMonth, birthDay, birthYear] = birthdate.split('/');
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1;
-    const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
-    const changes = [];
-
-    const birthdayThisYear = new Date(currentYear, parseInt(birthMonth) - 1, parseInt(birthDay));
-    const isAfterBirthday = currentDate >= birthdayThisYear;
-    const personalYearNumber = calculateNumber(calculateNumber(birthMonth, birthDay), isAfterBirthday ? currentYear.toString() : (currentYear - 1).toString());
-
-    // Calculate the personal month number for the current month
-    const personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
-
-    // Determine the day when the personal month changes
-    let changeDay = parseInt(birthDay);
-    if (changeDay > daysInMonth) {
-      changeDay = daysInMonth;
+  const calculatePersonalDay = (personalMonth, currentDay) => {
+    const sum = addDigits(parseInt(personalMonth)) + addDigits(parseInt(currentDay));
+    if (sum === 28) {
+      return '28';
     }
-
-    // Calculate the previous month's number
-    const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-    const prevMonthNumber = calculateNumber(personalYearNumber, prevMonth.toString());
-
-    // Add the previous month's number from day 1 to the day before the change
-    changes.push({ day: 1, number: prevMonthNumber });
-
-    // Add the current month's number from the change day
-    changes.push({ day: changeDay, number: personalMonthNumber });
-
-    setPersonalMonthChanges(changes);
+    return reduceNumber(sum, true).toString();
   };
 
   const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
@@ -119,20 +80,14 @@ const PersonalCalendar = ({ birthdate }) => {
       isNewPersonalYear ? currentYear.toString() : (currentYear - 1).toString()
     );
 
-    // Calculate Personal Month
-    const calculatePersonalMonthForDay = (day) => {
-      if (currentMonth > parseInt(birthMonth) || (currentMonth === parseInt(birthMonth) && day >= parseInt(birthDay))) {
-        // We're in or past the birth month
-        return calculateNumber(personalYearNumber, currentMonth.toString());
-      } else {
-        // We're before the birth month
-        const adjustedMonth = currentMonth + 12 - parseInt(birthMonth);
-        return calculateNumber(
-          calculateNumber(calculateNumber(birthMonth, birthDay), (currentYear - 1).toString()),
-          adjustedMonth.toString()
-        );
-      }
-    };
+    // Calculate Personal Month for the first day of the displayed month
+    let personalMonthNumber;
+    if (isNewPersonalYear) {
+      personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+    } else {
+      const adjustedMonth = currentMonth + 12 - parseInt(birthMonth);
+      personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
+    }
 
     for (let i = 0; i < 6; i++) {
       const week = [];
@@ -142,7 +97,11 @@ const PersonalCalendar = ({ birthdate }) => {
         } else if (dayCount > daysInMonth) {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
-          const personalMonthNumber = calculatePersonalMonthForDay(dayCount);
+          // Check if we need to update the Personal Month
+          if (dayCount === parseInt(birthDay)) {
+            personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+          }
+
           const personalDayNumber = calculatePersonalDay(personalMonthNumber, dayCount.toString());
         
           // Calculate the full equation
