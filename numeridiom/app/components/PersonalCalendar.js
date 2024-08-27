@@ -41,8 +41,14 @@ const PersonalCalendar = ({ birthdate }) => {
     // Calculate Personal Month
     let personalMonthNumber;
     if (isNewPersonalYear) {
-      // If it's a new personal year, use the current month
-      personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+      if (currentDay >= parseInt(birthDay)) {
+        // If we've passed the birth day this month, use the current month
+        personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+      } else {
+        // If we haven't reached the birth day yet, use the previous month
+        const prevMonth = currentMonth === 1 ? '12' : (currentMonth - 1).toString();
+        personalMonthNumber = calculateNumber(personalYearNumber, prevMonth);
+      }
     } else {
       // If we're still in the previous personal year, adjust the month number
       const adjustedMonth = currentMonth + 12 - parseInt(birthMonth);
@@ -119,7 +125,14 @@ const PersonalCalendar = ({ birthdate }) => {
     // Calculate Personal Month
     const calculatePersonalMonthForDay = (day) => {
       if (isNewPersonalYear) {
-        return calculateNumber(personalYearNumber, currentMonth.toString());
+        if (day >= parseInt(birthDay)) {
+          // If we've passed the birth day this month, use the current month
+          return calculateNumber(personalYearNumber, currentMonth.toString());
+        } else {
+          // If we haven't reached the birth day yet, use the previous month
+          const prevMonth = currentMonth === 1 ? '12' : (currentMonth - 1).toString();
+          return calculateNumber(personalYearNumber, prevMonth);
+        }
       } else {
         const adjustedMonth = currentMonth + 12 - parseInt(birthMonth);
         return calculateNumber(personalYearNumber, adjustedMonth.toString());
