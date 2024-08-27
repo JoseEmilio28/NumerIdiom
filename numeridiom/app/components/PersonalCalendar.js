@@ -34,25 +34,22 @@ const PersonalCalendar = ({ birthdate }) => {
     // Calculate Personal Year
     const personalYearNumber = calculateNumber(
       calculateNumber(birthMonth, birthDay),
-      isNewPersonalYear ? currentYear.toString() : (currentYear - 1).toString()
+      currentYear.toString()
     );
     setPersonalYear(personalYearNumber);
 
     // Calculate Personal Month
     let personalMonthNumber;
-    if (isNewPersonalYear) {
-      if (currentDay >= parseInt(birthDay)) {
-        // If we've passed the birth day this month, use the current month
-        personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
-      } else {
-        // If we haven't reached the birth day yet, use the previous month
-        const prevMonth = currentMonth === 1 ? '12' : (currentMonth - 1).toString();
-        personalMonthNumber = calculateNumber(personalYearNumber, prevMonth);
-      }
+    if (currentMonth > parseInt(birthMonth) || (currentMonth === parseInt(birthMonth) && currentDay >= parseInt(birthDay))) {
+      // We're in or past the birth month
+      personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
     } else {
-      // If we're still in the previous personal year, adjust the month number
+      // We're before the birth month
       const adjustedMonth = currentMonth + 12 - parseInt(birthMonth);
-      personalMonthNumber = calculateNumber(personalYearNumber, adjustedMonth.toString());
+      personalMonthNumber = calculateNumber(
+        calculateNumber(calculateNumber(birthMonth, birthDay), (currentYear - 1).toString()),
+        adjustedMonth.toString()
+      );
     }
     setPersonalMonth(personalMonthNumber);
 
@@ -124,18 +121,16 @@ const PersonalCalendar = ({ birthdate }) => {
 
     // Calculate Personal Month
     const calculatePersonalMonthForDay = (day) => {
-      if (isNewPersonalYear) {
-        if (day >= parseInt(birthDay)) {
-          // If we've passed the birth day this month, use the current month
-          return calculateNumber(personalYearNumber, currentMonth.toString());
-        } else {
-          // If we haven't reached the birth day yet, use the previous month
-          const prevMonth = currentMonth === 1 ? '12' : (currentMonth - 1).toString();
-          return calculateNumber(personalYearNumber, prevMonth);
-        }
+      if (currentMonth > parseInt(birthMonth) || (currentMonth === parseInt(birthMonth) && day >= parseInt(birthDay))) {
+        // We're in or past the birth month
+        return calculateNumber(personalYearNumber, currentMonth.toString());
       } else {
+        // We're before the birth month
         const adjustedMonth = currentMonth + 12 - parseInt(birthMonth);
-        return calculateNumber(personalYearNumber, adjustedMonth.toString());
+        return calculateNumber(
+          calculateNumber(calculateNumber(birthMonth, birthDay), (currentYear - 1).toString()),
+          adjustedMonth.toString()
+        );
       }
     };
 
