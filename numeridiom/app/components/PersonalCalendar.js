@@ -29,8 +29,13 @@ const PersonalCalendar = ({ birthdate }) => {
     );
     setPersonalYear(personalYearNumber);
 
+    // Determine if we're in the new Personal Month
+    const isNewPersonalMonth = currentDay >= parseInt(birthDay);
+
     // Calculate Personal Month
-    const personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
+    const personalMonthNumber = calculateNumber(personalYearNumber, 
+      isNewPersonalMonth ? currentMonth.toString() : (currentMonth === 1 ? '12' : (currentMonth - 1).toString())
+    );
     setPersonalMonth(personalMonthNumber);
 
     // Calculate Personal Day
@@ -82,9 +87,19 @@ const PersonalCalendar = ({ birthdate }) => {
         } else if (dayCount > daysInMonth) {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
+          // Determine if it's a new Personal Year
+          const isNewPersonalYearToday = (currentMonth === parseInt(birthMonth) && dayCount === parseInt(birthDay));
+          
+          // Calculate Personal Year for this specific day
+          const personalYearForDay = isNewPersonalYearToday ? 
+            calculateNumber(calculateNumber(birthMonth, birthDay), currentYear.toString()) :
+            personalYearNumber;
+
           // Calculate Personal Month for this specific day
           const isNewPersonalMonth = dayCount >= parseInt(birthDay);
-          const personalMonthNumber = calculateNumber(personalYearNumber, isNewPersonalMonth ? currentMonth.toString() : (currentMonth - 1).toString());
+          const personalMonthNumber = calculateNumber(personalYearForDay, 
+            isNewPersonalMonth ? currentMonth.toString() : (currentMonth === 1 ? '12' : (currentMonth - 1).toString())
+          );
           
           const personalDayNumber = calculatePersonalDay(personalMonthNumber, dayCount.toString());
         
@@ -121,9 +136,14 @@ const PersonalCalendar = ({ birthdate }) => {
                   i
                 </span>
               </div>
+              {isNewPersonalYearToday && (
+                <div className="text-xs text-red-600">
+                  New Personal Year
+                </div>
+              )}
               {dayCount === parseInt(birthDay) && (
                 <div className="text-xs text-blue-600">
-                  PY={personalYearNumber}, PM={personalMonthNumber}
+                  PY={personalYearForDay}, PM={personalMonthNumber}
                 </div>
               )}
               {dayCount === parseInt(birthDay) && (
