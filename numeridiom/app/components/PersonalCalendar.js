@@ -74,9 +74,6 @@ const PersonalCalendar = ({ birthdate }) => {
       isNewPersonalYear ? currentYear.toString() : (currentYear - 1).toString()
     );
 
-    // Calculate Personal Month
-    const personalMonthNumber = calculateNumber(personalYearNumber, currentMonth.toString());
-
     for (let i = 0; i < 6; i++) {
       const week = [];
       for (let j = 0; j < 7; j++) {
@@ -85,6 +82,10 @@ const PersonalCalendar = ({ birthdate }) => {
         } else if (dayCount > daysInMonth) {
           week.push(<td key={`empty-end-${j}`} className="p-2"></td>);
         } else {
+          // Calculate Personal Month for this specific day
+          const isNewPersonalMonth = dayCount >= parseInt(birthDay);
+          const personalMonthNumber = calculateNumber(personalYearNumber, isNewPersonalMonth ? currentMonth.toString() : (currentMonth - 1).toString());
+          
           const personalDayNumber = calculatePersonalDay(personalMonthNumber, dayCount.toString());
         
           // Calculate the full equation
@@ -120,9 +121,14 @@ const PersonalCalendar = ({ birthdate }) => {
                   i
                 </span>
               </div>
-              {dayCount === parseInt(birthDay) && currentMonth === parseInt(birthMonth) && (
+              {dayCount === parseInt(birthDay) && (
                 <div className="text-xs text-blue-600">
                   PY={personalYearNumber}, PM={personalMonthNumber}
+                </div>
+              )}
+              {dayCount === parseInt(birthDay) && (
+                <div className="text-xs text-green-600">
+                  New Personal Month
                 </div>
               )}
             </td>
