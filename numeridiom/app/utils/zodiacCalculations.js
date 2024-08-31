@@ -77,6 +77,7 @@ export const getSiderealSunSign = (month, day) => {
 };
 
 export const getSiderealSunSign = (month, day) => {
+  const year = new Date().getFullYear(); // Use current year as default
   const birthDate = new Date(year, month - 1, day);
   
   // Sidereal zodiac dates (approximate)
