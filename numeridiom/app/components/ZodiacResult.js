@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getChineseZodiac, getSiderealSunSign } from '../utils/zodiacCalculations';
 
 const ZodiacResult = ({ birthdate }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const chineseZodiac = getChineseZodiac(birthdate);
-  const siderealSunSign = getSiderealSunSign(birthdate);
+  const [chineseZodiac, setChineseZodiac] = useState('');
+  const [siderealSunSign, setSiderealSunSign] = useState('');
+
+  useEffect(() => {
+    if (birthdate) {
+      setChineseZodiac(getChineseZodiac(birthdate));
+      setSiderealSunSign(getSiderealSunSign(birthdate));
+    }
+  }, [birthdate]);
 
   return (
     <div className="mb-8">
