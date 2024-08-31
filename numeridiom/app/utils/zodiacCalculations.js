@@ -74,7 +74,6 @@ export const getSiderealSunSign = (month, day) => {
   
   const zodiacIndex = (lunarYear - 1900) % 12;
   return chineseZodiacSigns[zodiacIndex];
-};
 
 export const getSiderealSunSign = (month, day) => {
   const year = new Date().getFullYear(); // Use current year as default
