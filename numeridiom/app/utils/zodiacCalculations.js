@@ -71,14 +71,12 @@ export const getSiderealSunSign = (month, day) => {
     if (birthDate < approximateNewYear) {
       lunarYear -= 1;
     }
-  }
   
   const zodiacIndex = (lunarYear - 1900) % 12;
   return chineseZodiacSigns[zodiacIndex];
 };
 
-export const getSiderealSunSign = (birthdate) => {
-  const [month, day, year] = birthdate.split('/').map(Number);
+export const getSiderealSunSign = (month, day) => {
   const birthDate = new Date(year, month - 1, day);
   
   // Sidereal zodiac dates (approximate)
