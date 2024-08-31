@@ -8,8 +8,9 @@ const ZodiacResult = ({ birthdate }) => {
 
   useEffect(() => {
     if (birthdate) {
-      setChineseZodiac(getChineseZodiac(birthdate));
-      setSiderealSunSign(getSiderealSunSign(birthdate));
+      const [month, day, year] = birthdate.split('/').map(Number);
+      setChineseZodiac(getChineseZodiac(year, month, day));
+      setSiderealSunSign(getSiderealSunSign(month, day));
     }
   }, [birthdate]);
 
